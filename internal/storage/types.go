@@ -2,7 +2,13 @@ package storage
 
 import (
 	"context"
+	"errors"
 	"time"
+)
+
+var (
+	ErrNoteNotFound = errors.New("note not found")
+	ErrNoNotes      = errors.New("no notes")
 )
 
 type Note struct {

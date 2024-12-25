@@ -4,14 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"hello-bot/pkg/e"
 
+	"github.com/SergeyBogomolovv/notes-bot/pkg/e"
 	"github.com/jmoiron/sqlx"
-)
-
-var (
-	ErrNoteNotFound = errors.New("note not found")
-	ErrNoNotes      = errors.New("no notes")
 )
 
 type storage struct {

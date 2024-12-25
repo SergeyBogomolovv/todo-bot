@@ -2,10 +2,13 @@ package app
 
 import (
 	"context"
-	"hello-bot/internal/controller"
 	"log/slog"
 
+	"github.com/SergeyBogomolovv/notes-bot/internal/controller"
+	"github.com/SergeyBogomolovv/notes-bot/internal/service"
+	"github.com/SergeyBogomolovv/notes-bot/internal/storage"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/jmoiron/sqlx"
 )
 
 type Controller interface {
@@ -18,8 +21,10 @@ type application struct {
 	controller Controller
 }
 
-func New(bot *tgbotapi.BotAPI, log *slog.Logger) *application {
-	controller := controller.New(log, bot, nil)
+func New(log *slog.Logger, bot *tgbotapi.BotAPI, db *sqlx.DB) *application {
+	storage := storage.New(db)
+	service := service.New(log, storage)
+	controller := controller.New(log, bot, service)
 
 	return &application{
 		bot:        bot,
